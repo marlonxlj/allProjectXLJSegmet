@@ -26,25 +26,36 @@
 #import "XLJContentSegment.h"
 #import "XLJContentScrollView.h"
 
+#import "XLJTtitleButton.h"
+#import "UIView+XLJFrame.h"
+
+//
+#import "XLJTitleScrollView.h"
+
+#import "XLJSegmentController.h"
 @interface XLJFirstController ()<UIScrollViewDelegate>
 
-@property (nonatomic, strong) NSMutableArray *titleChild;
-@property (nonatomic, strong) XLJScrollView *topTitleScrollView;
+//用新的方法实现
+/**用来存储所有的子控制器的scrollview*/
+@property (nonatomic, strong) UIScrollView *scrollView;
 
-//内容
-@property (nonatomic, strong) XLJContentScrollView *contentChildView;
+/**标题栏*/
+@property (nonatomic, strong) UIView *titlesView;
+
+/**下划线*/
+@property (nonatomic, strong) UIView *titleUnderLine;
+
+/**保存上一次点击的标题按钮*/
+@property (nonatomic, strong) XLJTtitleButton *previousClickButton;
+
+
+/************************************************/
+
 
 @end
 
 @implementation XLJFirstController
 
-- (NSMutableArray *)titleChild
-{
-    if (!_titleChild) {
-        _titleChild = @[].mutableCopy;
-    }
-    return _titleChild;
-}
 #pragma mark -- 测试navgation手势返回方法
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
@@ -63,130 +74,274 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.alpha = 1;
     
+    
+#if 0
+    /*
+     
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+                      方式一
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+     */
+    
+    //1.初始化子控制器
+    [self setupAllChildViews];
+    
+    //2.设置scrollview
+    [self setupScrollView];
+    
+    //3.设置标题
+    [self setupTitlesView];
+    
+    //4.添加第0个子控制器的view
+    [self addChilviewIntoScrollView:0];
+    
+#elif 0
+    /*
+     
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+                         方式二
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+     */
+    NSMutableArray *titles = @[@"全部",@"视频",@"声音",@"图片",@"开心麻花",@"小太阳",@"个人中心",@"相亲"].mutableCopy;
+
+//    NSMutableArray *titles = @[@"全部",@"视频",@"声音",@"图片",@"麻花",@"太阳",@"个人",@"相亲"].mutableCopy;
+    XLJTitleScrollView *scrollviewTwo = [[XLJTitleScrollView alloc] initWithFrame:CGRectMake(0, 64, self.view.xljWidth, 40) withArray:titles];
+
+    //一定要记得添加这句话，禁止内边距
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    [self.view addSubview:scrollviewTwo];
+    
+#elif 1
+    /*
+     
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+     方式三
+     ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+     */
+
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(200, 200, 40, 40)];
+    
+    btn.backgroundColor = [UIColor redColor];
+    [btn addTarget:self action:@selector(btnb) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+    
+#endif
+    
+}
+
+- (void)btnb
+{
+    XLJSegmentController *vc = [[XLJSegmentController alloc] init];
+    
+    [self.navigationController pushViewController:vc animated:YES];
+}
+#pragma mark -- 添加第index个子控制器的view到scrollview
+- (void)addChilviewIntoScrollView:(NSInteger)index
+{
+    UIViewController *childVC = self.childViewControllers[index];
+    
+    //如果view已经加载过就直接返回
+    if (childVC.isViewLoaded) return;
+    
+    //取出子控制器的view的frame
+    UIView *childVCView = childVC.view;
+    
+    //设置子控制器的view的frame
+    CGFloat scrollViewW = self.scrollView.xljWidth;
+    childVCView.frame = CGRectMake(scrollViewW * index, 0, scrollViewW, self.scrollView.xljHeight);
+    
+    //添加子控制器的view到scrollView
+    [self.scrollView addSubview:childVCView];
+
+}
+
+#pragma mark -- 设置标题
+- (void)setupTitlesView
+{
+    UIView *titleVies = [[UIView alloc] init];
+    titleVies.backgroundColor = [[UIColor blueColor] colorWithAlphaComponent:0.5];
+    titleVies.frame = CGRectMake(0, 64, self.view.xljWidth, 40);
+    self.titlesView = titleVies;
+    
+    [self.view addSubview:titleVies];
+    
     //1.设置标题按钮
-    [self settingTitleButton];
+    [self settingButton];
     
-    //2.添加标题的子视图
-    [self addChildTtitleButton];
+    //2.设置下划线
+    [self setupTItleUnderLine];
 }
 
-#pragma mark -- 添加标题的子视图
-- (void)addChildTtitleButton
+#pragma mark -- 设置下划线
+- (void)setupTItleUnderLine
 {
-    //1.把子视图添加到self的子视图中
-    XLJRecommendController *reVC = [XLJRecommendController new];
-    [self addChildViewController:reVC];
+    //标题按钮
+    XLJTtitleButton *firstTitleButton = self.titlesView.subviews.firstObject;
     
-    XLJYongController *yongVC = [XLJYongController new];
-    [self addChildViewController:yongVC];
+    //下划线
+    UIView *titleUnderLine = [[UIView alloc] init];
+    titleUnderLine.xljHeight = 2;
+    titleUnderLine.xljY = self.titlesView.xljHeight - titleUnderLine.xljHeight;
+    titleUnderLine.backgroundColor = [firstTitleButton titleColorForState:UIControlStateSelected];
+    [self.titlesView addSubview:titleUnderLine];
     
-    XLJActivityController *acVC = [XLJActivityController new];
-    [self addChildViewController:acVC];
+    self.titleUnderLine = titleUnderLine;
     
-    XLJTomorrowController *toVC = [XLJTomorrowController new];
+    //按钮状态切换
+    firstTitleButton.selected = YES;
+    self.previousClickButton = firstTitleButton;
     
-    [self addChildViewController:toVC];
-    
-    XLJMusicController *muVC = [XLJMusicController new];
-    [self addChildViewController:muVC];
-    
-    XLJVedioController *veVC = [XLJVedioController new];
-    [self addChildViewController:veVC];
-    
-    XLJWellComeController *weVC = [XLJWellComeController new];
-    [self addChildViewController:weVC];
-    
-    XLJPersonalController *prVC = [XLJPersonalController new];
-    [self addChildViewController:prVC];
-    
-    
-    //2.把滚动的scrollView添加到self.viw上
- 
-    NSMutableArray *marray = @[reVC.view,yongVC.view,acVC.view,toVC.view,muVC.view,veVC.view,weVC.view,prVC.view].mutableCopy;
-
-    XLJContentScrollView *contenChildView = [[XLJContentScrollView alloc] initWithFrame:CGRectMake(0, 64+40, CGRectGetWidth(self.view.bounds), self.view.frame.size.height - 64-40) withItem:marray];
-    
-    self.contentChildView = contenChildView;
-    self.contentChildView.delegate = self;
-    [self.view addSubview:contenChildView];
-    
+    //让lable文字内容计算尺寸
+    [firstTitleButton.titleLabel sizeToFit];
+    self.titleUnderLine.xljWidth = firstTitleButton.titleLabel.xljWidth + 10;
+    self.titleUnderLine.xljCenterX = firstTitleButton.xljCenterX;
 }
 
-
-#pragma mark -- 设置标题按钮
-- (void)settingTitleButton
+#pragma mark --设置按钮
+- (void)settingButton
 {
-    //这句话没有作用，不知道是什么？？？
-    self.navigationController.automaticallyAdjustsScrollViewInsets = NO;
+    //文字
+    NSMutableArray *titles = @[@"全部",@"视频",@"声音",@"图片",@"开心麻花",@"小太阳",@"个人中心",@"相亲"].mutableCopy;
     
-    // 不允许自动修改UIScrollView的内边距
+    //标题按钮的尺寸
+    CGFloat titleButtonW = self.titlesView.xljWidth / titles.count;
+    
+    CGFloat titleButtonH = self.titlesView.xljHeight;
+    
+    //创建按钮
+    for (NSUInteger i = 0; i < titles.count; i++) {
+        
+        XLJTtitleButton *titleButton = [[XLJTtitleButton alloc] init];
+        //设置tag
+        titleButton.tag = i;
+        
+        //添加事事件
+        [titleButton addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.titlesView addSubview:titleButton];
+        //frame
+        titleButton.frame = CGRectMake(titleButtonW * i, 0, titleButtonW, titleButtonH);
+        
+        //文字
+        [titleButton setTitle:titles[i] forState:UIControlStateNormal];
+    }
+
+}
+
+#pragma mark -- 设置滚动视图
+- (void)setupScrollView
+{
+    //不允许自修改UIScrollView的内边距
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    //self.navigationItem.title = @"First";此方法有作用
-    NSMutableArray *marray = @[@"推荐大家",@"少年",@"活动介绍中",@"明天约",@"音乐乐天",@"视频动画",@"欢迎来到这里",@"个人介绍"].mutableCopy;
+    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    scrollView.backgroundColor = [UIColor redColor];
+    scrollView.frame = self.view.bounds;
+    scrollView.delegate = self;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.pagingEnabled = YES;
+    [self.view addSubview:scrollView];
+    self.scrollView = scrollView;
+    //点击状态栏的时候这个scrollView不到滚动到最顶部
+    scrollView.scrollsToTop = NO;
     
-    //下面的这个ok的
-    XLJScrollView *topScrollView = [[XLJScrollView alloc] initWithFrame:CGRectMake(0, 64, CGRectGetWidth(self.view.bounds), 40) withArray:marray];
+    //添加子控制器的view
+    NSUInteger count = self.childViewControllers.count;
+    CGFloat scrollViewW = scrollView.xljWidth;
+    scrollView.contentSize = CGSizeMake(scrollViewW * count, 0);
     
-    self.topTitleScrollView = topScrollView;
-    topScrollView.backgroundColor = [UIColor lightGrayColor];
+    /*
+    //添加子控制器的view
+    NSUInteger count = self.childViewControllers.count;
+    CGFloat scrollViewW = scrollView.xljWidth;
+    CGFloat scrollViewH = scrollView.xljHeight;
     
-    [self.view addSubview:topScrollView];
+    for (NSUInteger i = 0; i < count; i++) {
+        //取出i位置子控制器的view
+        UIView *childVCView = self.childViewControllers[i].view;
+        childVCView.frame = CGRectMake(scrollViewW * i, 0, scrollViewW, scrollViewH);
+        [scrollView addSubview:childVCView];
+    }
     
-    [topScrollView addTagert:self action:@selector(onClicked:)];
-
+    //滚动的范围
+    scrollView.contentSize = CGSizeMake(scrollViewW * count, 0);
+    */
 }
 
-- (void)onClicked:(UIButton *)btn
+#pragma mark -- 初始化子控制器
+- (void)setupAllChildViews
 {
-    NSLog(@"AAAA");
-    dispatch_async(dispatch_get_main_queue(), ^{
-    
-        self.contentChildView.selectedIndex = self.topTitleScrollView.selectedIndex;
-        
-    });
-
+    //把所有的子控制器都添加到当前的self,实际是在self.childViewControllers
+    [self addChildViewController:[[XLJRecommendController alloc] init]];
+    [self addChildViewController:[[XLJYongController alloc] init]];
+    [self addChildViewController:[[XLJActivityController alloc] init]];
+    [self addChildViewController:[[XLJTomorrowController alloc] init]];
+    [self addChildViewController:[[XLJMusicController alloc] init]];
+    [self addChildViewController:[[XLJVedioController alloc] init]];
+    [self addChildViewController:[[XLJWellComeController alloc] init]];
+    [self addChildViewController:[[XLJPersonalController alloc] init]];
 }
 
 //正在滚动的时候
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    CGFloat origin = scrollView.contentOffset.x / scrollView.bounds.size.width;
-    
-    if (origin < 0) {
-        origin = 0;
-    }
-    
-    CGFloat floorValue = floor(origin);
-    
-    CGFloat tempValue = origin - floorValue;
-    
-    CGFloat index;
-    
-    if (tempValue > 0.5) {
-        index = floorValue + 1;
-    }else{
-        index = floorValue;
-    }
-    
-    CGFloat scrollViewOffSet = scrollView.contentOffset.x;
-    CGFloat ratio = scrollViewOffSet / scrollView.bounds.size.width;
-    CGFloat sliderOffset = self.contentChildView.contentSize.width * ratio;
-
-    [self.topTitleScrollView changeSelectedIndex:index sliderOffset:sliderOffset];
   
 }
 //停止滚动的时候
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    CGFloat origin = scrollView.contentOffset.x / scrollView.bounds.size.width;
+    //标题按钮的索引
+    NSUInteger index = scrollView.contentOffset.x / scrollView.xljWidth;
     
-    if (origin < 0) {
-        origin = 0;
+    
+    XLJTtitleButton *titleButton = self.titlesView.subviews[index];
+    
+    [self titleButtonClick:titleButton];
+}
+
+#pragma mark --按钮点击事件
+- (void)titleButtonClick:(XLJTtitleButton *)titleButton
+{
+    if (self.previousClickButton == titleButton) {
+//        NSLog(@"AAA");
     }
     
-    CGFloat floorValue = floor(origin);
+    //按钮切换状态
+    self.previousClickButton.selected = NO;
+    titleButton.selected = YES;
+    self.previousClickButton = titleButton;
     
-    self.topTitleScrollView.selectedIndexStop = floorValue;
+    NSUInteger index = titleButton.tag;
+    
+    //动画处理
+    [UIView animateWithDuration:0.25 animations:^{
+        //处理下划线
+        self.titleUnderLine.xljWidth = titleButton.titleLabel.xljWidth + 10;
+        self.titleUnderLine.xljCenterX = titleButton.xljCenterX;
+        
+        //偏移量
+        self.scrollView.contentOffset = CGPointMake(self.scrollView.xljWidth * titleButton.tag, self.scrollView.contentOffset.y);
+    } completion:^(BOOL finished) {
+        
+        //添加子视图
+        [self addChilviewIntoScrollView:index];
+        
+    }];
+    
+    // 设置index位置对应的tableView.scrollsToTop = YES， 其他都设置为NO
+    /*
+   for (NSUInteger i = 0; i < self.childViewControllers.count; i++) {
+        
+        UIViewController *childVC = self.childViewControllers[i];
+        
+        UIScrollView *scrollView = (UIScrollView *)childVC.view;
+        if (![scrollView isKindOfClass:[UIScrollView class]])  continue;
+       
+        scrollView.scrollsToTop = (i == index);
+    }
+    */
 }
+
 @end

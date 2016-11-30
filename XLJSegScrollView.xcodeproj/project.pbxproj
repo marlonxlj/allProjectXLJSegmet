@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17013FEA1DC6DD8200930DE1 /* XLJTtitleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 17013FE91DC6DD8200930DE1 /* XLJTtitleButton.m */; };
+		17013FED1DC6E12100930DE1 /* UIView+XLJFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 17013FEC1DC6E12100930DE1 /* UIView+XLJFrame.m */; };
 		171C311D1DBF935E000CDC3C /* XLJContentScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 171C311C1DBF935E000CDC3C /* XLJContentScrollView.m */; };
 		171C31201DBF9387000CDC3C /* XLJContentSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 171C311F1DBF9387000CDC3C /* XLJContentSegment.m */; };
+		17562F591DEE6DF700CD3EC3 /* XLJSegmentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17562F581DEE6DF700CD3EC3 /* XLJSegmentController.m */; };
 		176410A11DB87BB30016218D /* XLJScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 176410A01DB87BB30016218D /* XLJScrollView.m */; };
 		176410A41DB87BF20016218D /* XLJSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 176410A31DB87BF20016218D /* XLJSegment.m */; };
 		17828E361DB5FD7000E40E2B /* XLJTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 17828E351DB5FD7000E40E2B /* XLJTabBar.m */; };
@@ -28,6 +31,8 @@
 		178675751DBF4C3800B5499B /* XLJWellComeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178675741DBF4C3800B5499B /* XLJWellComeController.m */; };
 		178675781DBF4C5D00B5499B /* XLJPersonalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178675771DBF4C5D00B5499B /* XLJPersonalController.m */; };
 		1786757B1DBF4CE500B5499B /* XLJRecommendController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786757A1DBF4CE500B5499B /* XLJRecommendController.m */; };
+		17B782271DC6FAA2002F729F /* XLJBaseTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B782261DC6FAA2002F729F /* XLJBaseTableController.m */; };
+		17B7822E1DC731FE002F729F /* XLJTitleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 17B7822D1DC731FE002F729F /* XLJTitleScrollView.m */; };
 		17BBD43F1DBDF179000434B3 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17BBD43E1DBDF179000434B3 /* WebKit.framework */; };
 		17DCDF6E1DB4BF2E00AF3EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 17DCDF6D1DB4BF2E00AF3EF6 /* main.m */; };
 		17DCDF791DB4BF2E00AF3EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 17DCDF781DB4BF2E00AF3EF6 /* Assets.xcassets */; };
@@ -59,10 +64,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17013FE81DC6DD8200930DE1 /* XLJTtitleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJTtitleButton.h; sourceTree = "<group>"; };
+		17013FE91DC6DD8200930DE1 /* XLJTtitleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJTtitleButton.m; sourceTree = "<group>"; };
+		17013FEB1DC6E12100930DE1 /* UIView+XLJFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XLJFrame.h"; sourceTree = "<group>"; };
+		17013FEC1DC6E12100930DE1 /* UIView+XLJFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XLJFrame.m"; sourceTree = "<group>"; };
 		171C311B1DBF935E000CDC3C /* XLJContentScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJContentScrollView.h; sourceTree = "<group>"; };
 		171C311C1DBF935E000CDC3C /* XLJContentScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJContentScrollView.m; sourceTree = "<group>"; };
 		171C311E1DBF9387000CDC3C /* XLJContentSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJContentSegment.h; sourceTree = "<group>"; };
 		171C311F1DBF9387000CDC3C /* XLJContentSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJContentSegment.m; sourceTree = "<group>"; };
+		17562F571DEE6DF700CD3EC3 /* XLJSegmentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJSegmentController.h; sourceTree = "<group>"; };
+		17562F581DEE6DF700CD3EC3 /* XLJSegmentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJSegmentController.m; sourceTree = "<group>"; };
 		1764109F1DB87BB30016218D /* XLJScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJScrollView.h; sourceTree = "<group>"; };
 		176410A01DB87BB30016218D /* XLJScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJScrollView.m; sourceTree = "<group>"; };
 		176410A21DB87BF20016218D /* XLJSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJSegment.h; sourceTree = "<group>"; };
@@ -101,6 +112,12 @@
 		178675771DBF4C5D00B5499B /* XLJPersonalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJPersonalController.m; sourceTree = "<group>"; };
 		178675791DBF4CE500B5499B /* XLJRecommendController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJRecommendController.h; sourceTree = "<group>"; };
 		1786757A1DBF4CE500B5499B /* XLJRecommendController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJRecommendController.m; sourceTree = "<group>"; };
+		17B782231DC6F251002F729F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		17B782241DC6F97B002F729F /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
+		17B782251DC6FAA2002F729F /* XLJBaseTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJBaseTableController.h; sourceTree = "<group>"; };
+		17B782261DC6FAA2002F729F /* XLJBaseTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJBaseTableController.m; sourceTree = "<group>"; };
+		17B7822C1DC731FE002F729F /* XLJTitleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLJTitleScrollView.h; sourceTree = "<group>"; };
+		17B7822D1DC731FE002F729F /* XLJTitleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLJTitleScrollView.m; sourceTree = "<group>"; };
 		17BBD43C1DBDF115000434B3 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/PrivateFrameworks/WebKit.framework; sourceTree = SDKROOT; };
 		17BBD43E1DBDF179000434B3 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		17DCDF691DB4BF2E00AF3EF6 /* XLJSegScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XLJSegScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,6 +171,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		17013FE71DC6DD5B00930DE1 /* news */ = {
+			isa = PBXGroup;
+			children = (
+				17B782281DC72AF2002F729F /* segm */,
+				17013FE81DC6DD8200930DE1 /* XLJTtitleButton.h */,
+				17013FE91DC6DD8200930DE1 /* XLJTtitleButton.m */,
+				17013FEB1DC6E12100930DE1 /* UIView+XLJFrame.h */,
+				17013FEC1DC6E12100930DE1 /* UIView+XLJFrame.m */,
+				17B782251DC6FAA2002F729F /* XLJBaseTableController.h */,
+				17B782261DC6FAA2002F729F /* XLJBaseTableController.m */,
+			);
+			path = news;
+			sourceTree = "<group>";
+		};
 		1764109E1DB87B590016218D /* XlJSegScrollviews */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +203,7 @@
 		17828E371DB5FE1D00E40E2B /* OtherView */ = {
 			isa = PBXGroup;
 			children = (
+				17013FE71DC6DD5B00930DE1 /* news */,
 				178675601DBF4AAD00B5499B /* ChildTitleView */,
 				1764109E1DB87B590016218D /* XlJSegScrollviews */,
 				17828E381DB5FE4800E40E2B /* XLJFirstController.h */,
@@ -213,6 +245,17 @@
 			path = ChildTitleView;
 			sourceTree = "<group>";
 		};
+		17B782281DC72AF2002F729F /* segm */ = {
+			isa = PBXGroup;
+			children = (
+				17B7822C1DC731FE002F729F /* XLJTitleScrollView.h */,
+				17B7822D1DC731FE002F729F /* XLJTitleScrollView.m */,
+				17562F571DEE6DF700CD3EC3 /* XLJSegmentController.h */,
+				17562F581DEE6DF700CD3EC3 /* XLJSegmentController.m */,
+			);
+			path = segm;
+			sourceTree = "<group>";
+		};
 		17DCDF601DB4BF2E00AF3EF6 = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +286,8 @@
 				17DCDF781DB4BF2E00AF3EF6 /* Assets.xcassets */,
 				17DCDF7A1DB4BF2E00AF3EF6 /* LaunchScreen.storyboard */,
 				17DCDF7D1DB4BF2E00AF3EF6 /* Info.plist */,
+				17B782231DC6F251002F729F /* PrefixHeader.pch */,
+				17B782241DC6F97B002F729F /* Header.h */,
 				17DCDF6C1DB4BF2E00AF3EF6 /* Supporting Files */,
 			);
 			path = XLJSegScrollView;
@@ -526,6 +571,7 @@
 				17828E431DB5FE7400E40E2B /* XLJFourController.m in Sources */,
 				17DCDFAB1DB4BFF000AF3EF6 /* XLJTabBarController.m in Sources */,
 				1786756F1DBF4C0C00B5499B /* XLJMusicController.m in Sources */,
+				17562F591DEE6DF700CD3EC3 /* XLJSegmentController.m in Sources */,
 				17DCDFB11DB4C18400AF3EF6 /* UIBarButtonItem+XLJButtonItem.m in Sources */,
 				1786757B1DBF4CE500B5499B /* XLJRecommendController.m in Sources */,
 				17828E461DB5FE8D00E40E2B /* XLJFiveController.m in Sources */,
@@ -540,9 +586,13 @@
 				17828E4C1DB70FF700E40E2B /* XLJTabBarButton.m in Sources */,
 				17828E3D1DB5FE5800E40E2B /* XLJSecondController.m in Sources */,
 				17DCDF6E1DB4BF2E00AF3EF6 /* main.m in Sources */,
+				17013FED1DC6E12100930DE1 /* UIView+XLJFrame.m in Sources */,
 				176410A11DB87BB30016218D /* XLJScrollView.m in Sources */,
+				17B782271DC6FAA2002F729F /* XLJBaseTableController.m in Sources */,
 				17828E401DB5FE6300E40E2B /* XLJThirdController.m in Sources */,
 				1786756C1DBF4BF600B5499B /* XLJTomorrowController.m in Sources */,
+				17B7822E1DC731FE002F729F /* XLJTitleScrollView.m in Sources */,
+				17013FEA1DC6DD8200930DE1 /* XLJTtitleButton.m in Sources */,
 				171C31201DBF9387000CDC3C /* XLJContentSegment.m in Sources */,
 				17828E491DB5FEFA00E40E2B /* XLJBaseController.m in Sources */,
 			);
@@ -685,6 +735,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.001yumama.XLJSegScrollView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SHARED_PRECOMPS_DIR = "$(CACHE_ROOT)/SharedPrecompiledHeaders";
 			};
 			name = Debug;
 		};
@@ -702,6 +753,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = cn.001yumama.XLJSegScrollView;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SHARED_PRECOMPS_DIR = "$(CACHE_ROOT)/SharedPrecompiledHeaders";
 			};
 			name = Release;
 		};

@@ -1,0 +1,13 @@
+//
+//  PrefixHeader.pch
+//  XLJSegScrollView
+//
+//  Created by m on 2016/10/31.
+//  Copyright © 2016年 XLJ. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+
+#endif /* PrefixHeader_pch */

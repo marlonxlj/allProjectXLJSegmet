@@ -6,8 +6,8 @@
 //  Copyright © 2016年 XLJ. All rights reserved.
 //
 
-#import "XLJBaseController.h"
+#import "XLJBaseTableController.h"
 
-@interface XLJMusicController : XLJBaseController
+@interface XLJMusicController : XLJBaseTableController
 
 @end

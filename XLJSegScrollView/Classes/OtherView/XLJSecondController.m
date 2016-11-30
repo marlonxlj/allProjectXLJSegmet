@@ -42,7 +42,7 @@
     // 创建5个标题按钮
     for (NSUInteger i = 0; i < count; i++) {
         UIButton *titleButton = [[UIButton alloc] init];
-        [titleButton addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [titleButton addTarget:self action:@selector(titleButtonClickA:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:titleButton];
         // frame
         titleButton.frame = CGRectMake(i * titleButtonW, 0, titleButtonW, titleButtonH);
@@ -57,7 +57,7 @@
 /**
  *  点击标题按钮
  */
-- (void)titleButtonClick:(UIButton *)titleButton
+- (void)titleButtonClickA:(UIButton *)titleButton
 {
     self.previousClickedTitleButton.selected = NO;
     titleButton.selected = YES;
