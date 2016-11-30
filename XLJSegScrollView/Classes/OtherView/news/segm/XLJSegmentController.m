@@ -9,181 +9,149 @@
 #import "XLJSegmentController.h"
 #import "UIView+XLJFrame.h"
 
-#define WIDTH [UIScreen mainScreen].bounds.size.width
+//子视图
+#import "XLJRecommendController.h"
+#import "XLJYongController.h"
+#import "XLJActivityController.h"
+#import "XLJTomorrowController.h"
+#import "XLJMusicController.h"
+#import "XLJVedioController.h"
+#import "XLJWellComeController.h"
+#import "XLJPersonalController.h"
 
+#define fontSize 20
 #define FixMinSpacing 10
-
-#define WIDTH [UIScreen mainScreen].bounds.size.width
-#define btnWidth 0
-#define randomColor [UIColor colorWithRed:arc4random()%255/256.0 green:arc4random()%255/256.0 blue:arc4random()%255/256.0 alpha:1]
-#define btnHeight 20
-#define btnAddHeight 20
-
-#define fontSize 15
-
 @interface XLJSegmentController ()<UIScrollViewDelegate>
+/** 顶部scrollView  */
+@property (strong, nonatomic)  UIScrollView *topScrollView;
 
-/**
- *  顶部的scrollView
- */
-@property (nonatomic, strong)  UIScrollView *topScrollView;
+/** 底部的scrollView */
+@property (strong, nonatomic)  UIScrollView *bottomScrollview;
 
-/**
- *  底部大的scrollView
- */
-@property (nonatomic, strong)   UIScrollView *bottomScrollview;
+/** 滚动滑块 */
+@property (nonatomic, strong) UIView *bottomView;
 
-/**
- *  滚动滑块
- */
-@property (nonatomic, strong) UIView *titleUnderLine;
+/** 按钮的个数 */
+@property (nonatomic, assign) NSInteger  count;
 
-/**
- *  按钮的个数
- */
-@property (nonatomic, assign)  NSInteger  buttonCount;
-/**
- *  按钮数组
- */
-@property (nonatomic, strong) NSMutableArray *buttonmArray;
-
-/**
- * 字体大小
- */
-//@property (nonatomic, assign) CGFloat fontSize;
-
-/**
- * 用来存储所有的子控制器的scrollview
- */
-//@property (nonatomic, strong) UIScrollView *scrollView;
-
+/** 按钮数组 */
+@property (nonatomic, strong) NSMutableArray *btnArray;
 
 @end
 
-@implementation XLJSegmentController
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHight [UIScreen mainScreen].bounds.size.height
 
-- (NSMutableArray *)buttonmArray
-{
-    if (!_buttonmArray) {
-        _buttonmArray = @[].mutableCopy;
-    }
-    
-    return _buttonmArray;
-}
+#define randomColor [UIColor colorWithRed:arc4random()%255/256.0 green:arc4random()%255/256.0 blue:arc4random()%255/256.0 alpha:1]
+
+//按钮的高度(最好算法是topScrollView的高度的一半)
+#define btnHeight 20
+//按钮的宽度，根据传入文字的长度来计算
+#define btnWidth 0
+//按钮左边的距离
+#define btnAddHeight 20
+
+@implementation XLJSegmentController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //设置视图
-    [self setChildScrollView];
-}
-
-- (void)setChildScrollView
-{
- 
-    //1.设置顶部的scrollview
-    [self topView];
+    //1.初始化子控制器
+    [self setupAllChildViews];
     
-}
-
-- (void)topView
-{
-    NSArray *array = @[@"试听列表", @"一岁愿不愿意都是我我的在", @"两岁加一", @"三岁一二三", @"立体书", @"千字文文言文", @"三字经", @"童话故事里都是", @"王子和公主", @"词", @"古诗", @"文言文", @"格言", @"警句"];
+    [self setupScrollView];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    CGFloat sizeWidth = 0;
-    self.buttonCount = array.count;
-    //1.设置顶部的Scrollview
-    self.topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, WIDTH, 40)];
-    //设置代理
-    self.topScrollView.delegate = self;
-    self.topScrollView.pagingEnabled = YES;
-    self.topScrollView.bounces = NO;
-    self.topScrollView.showsVerticalScrollIndicator = NO;
-    self.topScrollView.showsHorizontalScrollIndicator = NO;
-    self.topScrollView.tag = 101;
-    self.topScrollView.backgroundColor = [UIColor redColor];
+    [self addChilviewIntoScrollView:0];
+}
+
+- (void)setupScrollView {
     
-    //添加到当前的view
+    NSArray *array = @[@"试听列表", @"一岁愿不愿意都是我我的在", @"两岁加一", @"三岁一二三", @"立体书", @"千字文文言文", @"三字经", @"童话故事里都是", @"王子和公主", @"词", @"古诗", @"文言文", @"格言", @"警句"];
+    
+    CGFloat sizeWidth = btnWidth;
+    _count = array.count;
+    
+    self.topScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 64, ScreenWidth, 40)];
+    self.topScrollView.backgroundColor = [UIColor redColor];
+    self.topScrollView.delegate = self;
+    
     [self.view addSubview:self.topScrollView];
     
-    //1.设置底部的scrollview
-    [self bottomView];
+    self.bottomScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, ScreenWidth,  self.view.xljHeight - 104)];
     
-    //2.创建按钮
-
-    for (int i = 0; i < array.count; i++) {
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-        //根据文字的长度来计算宽度
-        CGFloat width = [array[i] boundingRectWithSize:CGSizeMake(MAXFLOAT, 40) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size.width;
-        //20不知道，等会看
-        width = width + btnAddHeight;
-        //设置按钮的frame
-        button.frame =  CGRectMake(sizeWidth, 0+FixMinSpacing, width, btnHeight);
-        button.titleLabel.font = [UIFont systemFontOfSize:fontSize];
-        button.tag = i;
-        //设置按钮的标题文字
-        [button setTitle:array[i] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(titleButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-
-        
-        //把按钮添加到顶部滚动视图
-        [self.topScrollView addSubview:button];
-        button.backgroundColor = randomColor;
-        
-        //计算按钮x的位置
-        sizeWidth = sizeWidth + width + FixMinSpacing;
-        //将创建的按钮保存到数组中
-        [self.buttonmArray addObject:button];
-        
-        //添加子视图
-        UIView *ChildView = [[UIView alloc] initWithFrame:CGRectMake(i *WIDTH, 0, WIDTH, self.bottomScrollview.bounds.size.height)];
-        
-        ChildView.backgroundColor = randomColor;
-        [self.bottomScrollview addSubview:ChildView];
-
-    }
-     
-    self.topScrollView.contentSize = CGSizeMake(sizeWidth, 30);
-    
-    //创建按钮下方的滑块
-    CGFloat bottomViewWidth =  [array[0] boundingRectWithSize:CGSizeMake(MAXFLOAT, 40) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size.width;
-    bottomViewWidth = bottomViewWidth + btnAddHeight;
-    
-    self.titleUnderLine = [[UIView alloc] initWithFrame:CGRectMake(0, btnHeight+FixMinSpacing, bottomViewWidth, 3)];
-    self.titleUnderLine.backgroundColor = [UIColor greenColor];
-    [self.topScrollView addSubview:self.titleUnderLine];
-
-    
-}
-
-
-- (void)bottomView
-{
-    //创建底部的滚动视图
-    self.bottomScrollview = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 104, WIDTH, self.view.xljHeight-104)];
     self.bottomScrollview.delegate = self;
     [self.view addSubview:self.bottomScrollview];
     
-    self.bottomScrollview.pagingEnabled = YES;
+    if (self.btnArray) {
+        
+        self.btnArray = nil;
+    }
+    
+    self.btnArray = [NSMutableArray arrayWithCapacity:0];
+    
+    
+    for (int i = 0; i < _count; i ++) {
+        
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        //计算传入的文字的长度
+        CGFloat width = [array[i] boundingRectWithSize:CGSizeMake(MAXFLOAT, btnHeight) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size.width;
+        
+        width += btnAddHeight;
+        
+        button.frame = CGRectMake(sizeWidth, 10, width, btnHeight);
+        button.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+        [button setTitle:array[i] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+        button.tag = i;
+        button.backgroundColor = randomColor;
+        [self.topScrollView addSubview:button];
+        
+        //按钮X的位置
+        sizeWidth += (width+FixMinSpacing);
+        
+        [self.btnArray addObject:button];
+        
+    }
+    
+    //设置按钮下面的滚动滑块
+    CGFloat bottomViewWidth = [array[0] boundingRectWithSize:CGSizeMake(MAXFLOAT, btnHeight) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:fontSize]} context:nil].size.width;
+    
+    bottomViewWidth += btnAddHeight;
+    
+    _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, btnHeight+FixMinSpacing, bottomViewWidth, 3)];
+    
+    _bottomView.backgroundColor = [UIColor greenColor];
+    
+    [self.topScrollView addSubview:_bottomView];
+    
+    //设置顶部的scrollView
+    
+    self.topScrollView.contentSize = CGSizeMake(sizeWidth, 40);
+    self.topScrollView.showsHorizontalScrollIndicator = NO;
+    self.topScrollView.showsVerticalScrollIndicator = NO;
+    self.topScrollView.bounces = NO;
+    self.topScrollView.tag = 101;
+    
+    //设置底部的ScrollView
+    
+    self.bottomScrollview.contentSize = CGSizeMake(ScreenWidth *_count, self.bottomScrollview.xljHeight);
     self.bottomScrollview.bounces = NO;
+    self.bottomScrollview.pagingEnabled = YES;
     self.bottomScrollview.tag = 102;
     
-    self.bottomScrollview.contentSize = CGSizeMake(WIDTH * self.buttonCount, self.bottomScrollview.xljHeight);
     
 }
 
-#pragma mark --按钮点击事件
-- (void)titleButtonAction:(UIButton *)button
-{
-    self.bottomScrollview.contentOffset = CGPointMake(button.tag *WIDTH, 0);
-
+/**
+ *  按钮的点击事件
+ */
+- (void)buttonAction:(UIButton *)btn {
+    
+    self.bottomScrollview.contentOffset = CGPointMake(btn.tag*ScreenWidth, 0);
 }
 
-#pragma mark --scrollView的代理
 /**
  *  ScrollView 的代理
  */
@@ -193,64 +161,66 @@
     
     if (scrollView ==sc) {
         
-        int intPage = scrollView.contentOffset.x/WIDTH;
+        int intPage = scrollView.contentOffset.x/ScreenWidth;
+        
         CGFloat locationpoint = 0;
         
-        UIButton *button = self.buttonmArray[intPage];
-        NSInteger arrayCount = self.buttonmArray.count;
+        UIButton *button = self.btnArray[intPage];
+        NSInteger arrayCount = self.btnArray.count;
         
         UIButton *newButton;
         
-        if (intPage<arrayCount-1) {
+        if (intPage < arrayCount-1) {
             
-            newButton = self.buttonmArray[intPage+1];
+            newButton = self.btnArray[intPage+1];
             
         } else {
             
-            newButton = self.buttonmArray[intPage];
+            newButton = self.btnArray[intPage];
         }
         
         //取出当前按钮的宽
-        CGFloat lastWidth = button.frame.size.width;
-        CGFloat newX = button.frame.origin.x;
+        CGFloat lastWidth = button.xljWidth;
 
+        CGFloat newX = button.xljX;
+        
         //计算当前位置
         for (int i = 0; i < intPage; i ++) {
             
-            UIButton *btn =  self.buttonmArray[i];
-            locationpoint = locationpoint + btn.frame.size.width;
+            UIButton *btn =  self.btnArray[i];
+            locationpoint = locationpoint + btn.xljWidth;
             
         }
         
         
         //滚动滑块的变化动画
         [UIView animateWithDuration:0.3 animations:^{
-            
-            self.titleUnderLine.frame = CGRectMake(newX, btnHeight+FixMinSpacing, lastWidth, 3);
-            
+            _bottomView.frame = CGRectMake(newX, btnHeight+FixMinSpacing, lastWidth, 3);
+        } completion:^(BOOL finished) {
+            [self addChilviewIntoScrollView:intPage];
         }];
         
         
         CGFloat contentWidth = self.topScrollView.contentSize.width;
         
-        if (contentWidth > WIDTH) {
+        if (contentWidth > ScreenWidth) {
             [UIView animateWithDuration:0.8 animations:^{
                 
-                // 当前按钮的位置大于屏幕的一半    小于整个topScrollView的contentSize减去屏幕的一半宽度和按钮的和
-                if (locationpoint>=WIDTH/2 && locationpoint<=contentWidth-WIDTH/2-lastWidth) {
+                // 当前按钮的位置大于屏幕的一半且小于整个topScrollView的contentSize减去屏幕的一半宽度和按钮的和
+                if (locationpoint >= ScreenWidth/2 && locationpoint <= contentWidth-ScreenWidth/2-lastWidth) {
                     
                     
-                    self.topScrollView.contentOffset = CGPointMake(locationpoint-WIDTH/2+lastWidth/2, 0);
+                    self.topScrollView.contentOffset = CGPointMake(locationpoint-ScreenWidth/2+lastWidth/2, 0);
                     
                     // 当前按钮的位置小于屏幕的一半
-                } else if (locationpoint<WIDTH/2) {
+                } else if (locationpoint < ScreenWidth/2) {
                     
                     self.topScrollView.contentOffset = CGPointMake(0, 0);
                     
                     //当前按钮的位置大于整个topScrollView的contentSize减去屏幕的一半宽度和按钮的和
-                } else if (locationpoint>contentWidth-WIDTH/2-lastWidth){
+                } else if (locationpoint > contentWidth-ScreenWidth/2-lastWidth){
                     
-                    self.topScrollView.contentOffset = CGPointMake(contentWidth-WIDTH, 0);
+                    self.topScrollView.contentOffset = CGPointMake(contentWidth - ScreenWidth, 0);
                 }
                 
             }];
@@ -260,9 +230,39 @@
     
 }
 
+#pragma mark -- 添加第index个子控制器的view到scrollview
+- (void)addChilviewIntoScrollView:(NSInteger)index
+{
+        UIViewController *childVC = self.childViewControllers[index];
+    
+        //如果view已经加载过就直接返回
+        if (childVC.isViewLoaded) return;
+    
+        //取出子控制器的view的frame
+        UIView *childVCView = childVC.view;
+    
+        //设置子控制器的view的frame
+        CGFloat scrollViewW = self.bottomScrollview.frame.size.width;
+        childVCView.frame = CGRectMake(scrollViewW * index, 0, scrollViewW, self.bottomScrollview.frame.size.height);
+    
+        //添加子控制器的view到scrollView
+        [self.bottomScrollview addSubview:childVCView];
+    
+}
 
-
-
+#pragma mark -- 初始化子控制器
+- (void)setupAllChildViews
+{
+    //把所有的子控制器都添加到当前的self,实际是在self.childViewControllers
+    [self addChildViewController:[[XLJRecommendController alloc] init]];
+    [self addChildViewController:[[XLJYongController alloc] init]];
+    [self addChildViewController:[[XLJActivityController alloc] init]];
+    [self addChildViewController:[[XLJTomorrowController alloc] init]];
+    [self addChildViewController:[[XLJMusicController alloc] init]];
+    [self addChildViewController:[[XLJVedioController alloc] init]];
+    [self addChildViewController:[[XLJWellComeController alloc] init]];
+    [self addChildViewController:[[XLJPersonalController alloc] init]];
+}
 
 
 @end

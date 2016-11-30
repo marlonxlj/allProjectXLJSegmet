@@ -7,6 +7,7 @@
 //
 
 #import "XLJYongController.h"
+#import "UIView+XLJFrame.h"
 
 @interface XLJYongController ()
 
@@ -18,5 +19,6 @@
     [super viewDidLoad];
     
 }
+
 
 @end

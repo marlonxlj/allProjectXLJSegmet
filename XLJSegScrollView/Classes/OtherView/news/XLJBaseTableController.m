@@ -24,8 +24,7 @@ CGFloat const XMGTitlesViewH = 35;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.contentInset = UIEdgeInsetsMake(XMGNavMaxY + XMGTitlesViewH, 0, XMGTabBarH, 0);
-
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, XMGTabBarH, 0);
 }
 
 #pragma mark - 数据源
